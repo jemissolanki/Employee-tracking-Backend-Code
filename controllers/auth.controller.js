@@ -40,7 +40,9 @@ exports.login = async (req, res) => {
     console.log(req.body);
     const { email, password } = req.body;
     const user = await User.findOne({ email });
-    if (!user || !(await !user.matchPassword(password)))
+    console.log(user);
+    
+    if (!user || !(await user.matchPassword(password)))
       return res.status(400).json({ message: "invalid Credentials " });
 
     const accessToken = generateAccessToken(user._id);
@@ -49,19 +51,20 @@ exports.login = async (req, res) => {
 
     user.refreshToken = refreshToken;
     await user.save();
-    res.status(201).json({ message: accessToken, refreshToken });
+    res.status(201).json({  accessToken, refreshToken });
   } catch (error) {
     res.status(500).json({ message: "server error " });
   }
 };
 
 exports.refreshToken = async (req, res) => {
-  console.log("R : ", req.body);
-
-  const { refreshToken } = req.body;
+  
+  
+  try {
+    console.log("R : ", req.body);
+    const { refreshToken } = req.body;
   if (!refreshToken)
     return res.status(403).json({ message: "no token provided " });
-  try {
     jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, decode) => {
       if (err)
         return res.status(403).json({ message: "invalid token provided" });
