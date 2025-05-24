@@ -36,8 +36,9 @@ exports.register = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
+
+  // Always write variables access inside try section
   try {
-    console.log(req.body);
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     console.log(user);
