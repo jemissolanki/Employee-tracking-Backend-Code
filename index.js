@@ -12,7 +12,7 @@ connectDB();
 app.use(bodyParser.json());
 //  routes
 app.use("/api/auth", authRoutes);
-app.use("/api/Routes", employeeRoute);
+app.use("/api/employees", employeeRoute);
 
 // error handling middleware
 // app.use((err, req, res, next) => {
