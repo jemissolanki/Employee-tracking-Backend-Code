@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const connectDB = require("./config/database.config.js");
 const authRoutes = require("./routes/auth.route.js");
+const employeeRoute=require("./routes/employee.route.js");
 const app = express();
 
 dotenv.config();
@@ -11,6 +12,7 @@ connectDB();
 app.use(bodyParser.json());
 //  routes
 app.use("/api/auth", authRoutes);
+app.use("/api/Routes", employeeRoute);
 
 // error handling middleware
 // app.use((err, req, res, next) => {
