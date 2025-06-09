@@ -1,19 +1,20 @@
-const employee = require("../models/Employee.model.js");
+const Employee = require("../models/Employee.model.js");
 const fs = require("fs");
 const path = require("path");
 
 exports.createEmployee = async (req, res) => {
   try {
     const { employeeName, workDesignation, qualification } = req.body;
-    const userId = usersModel._id;
-    const newEmployee = new employee({
+    const userId = req.user._id;
+
+    const newEmployee = new Employee({
       employeeName,
       workDesignation,
       qualification,
       author: userId,
-      createAt: new Date(),
+      createdAt: new Date(),
     });
-    await this.createEmployee.save();
+    await newEmployee.save();
     return res
       .status(201)
       .json({ message: "employee created", employee: newEmployee });
@@ -24,7 +25,7 @@ exports.createEmployee = async (req, res) => {
 
 const getAllEmployees = async (req, res) => {
   try {
-    const employees = await employee.find().populate("author", "username");
+    const employees = await Employee.find().populate("author", "username");
     return res.status(200).json(employees);
   } catch (error) {
     res.status(500).json({ message: "server error " });
@@ -33,19 +34,20 @@ const getAllEmployees = async (req, res) => {
 
 const updateEmployee = async (req, res) => {
   try {
-    const userId = req.users._id;
+    const userId = req.user._id;
     const employeeId = req.params.id;
-    const employee = await employees.findById(userId);
+    const employee = await Employee.findById(employeeId);
     if (!employee)
       return res.status(404).json({ message: "Employee Not Found " });
-    if (employee.author.toString !== userId.toString())
+    if (employee.author.toString() !== userId.toString())
       return res.status(403).json({ message: "Unauthorized " });
 
-    employee.employeeName = req.employee.employeeName || employee.employeeName;
+    employee.employeeName = req.body.employeeName || employee.employeeName;
     employee.workDesignation =
-      req.employee.workDesignation || employee.workDesignation;
-    await updateEmployee.save();
-    return res.status(200).json(employees);
+      req.body.workDesignation || employee.workDesignation;
+      employee.qualification=req.body.qualification || employee.qualification;
+    await employee.save();
+    return res.status(200).json(employee);
   } catch (error) {
     res.status(500).json({ message: "server error " });
   }
@@ -53,16 +55,16 @@ const updateEmployee = async (req, res) => {
 
 const deleteEmployee = async (req, res) => {
   try {
-    const userId = req.users._id;
+    const userId = req.user._id;
     const employeeId = req.params.id;
-    const employee = await employees.findById(userId);
+    const employee = await Employee.findById(employeeId);
     if (!employee)
       return res.status(404).json({ message: "Employee Not Found " });
-    if (employee.author.toString !== userId.toString())
+    if (employee.author.toString() !== userId.toString())
       return res.status(403).json({ message: "Unauthorized " });
 
-    await deleteEmployee.save();
-    return res.status(200).json(employees);
+    await employee.deleteOne();
+    return res.status(200).json({message:"employee deleted"});
   } catch (error) {
     res.status(500).json({ message: "server error " });
   }

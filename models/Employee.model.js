@@ -4,7 +4,7 @@ const employeeSchema = new mongoose.Schema(
   {
     employeeName: {
       type: String,
-      require: true,
+      required: true,
     },
     workDesignation: {
       type: String,
@@ -15,7 +15,7 @@ const employeeSchema = new mongoose.Schema(
       require: true,
     },
     author: {
-      type: mongoose.Schema.types.objectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Users",
       require: true,
     },
@@ -24,7 +24,7 @@ const employeeSchema = new mongoose.Schema(
       default: Date.now,
     },
   },
-  { tyimestamps: true }
+  { timestamps: true }
 );
 
-module.exports = mongoose.model("employee", employeeSchema);
+module.exports = mongoose.model("Employee", employeeSchema);
