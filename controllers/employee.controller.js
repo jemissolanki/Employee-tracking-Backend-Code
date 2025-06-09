@@ -2,7 +2,7 @@ const Employee = require("../models/Employee.model.js");
 const fs = require("fs");
 const path = require("path");
 
-exports.createEmployee = async (req, res) => {
+const createEmployee = async (req, res) => {
   try {
     const { employeeName, workDesignation, qualification } = req.body;
     const userId = req.user._id;
