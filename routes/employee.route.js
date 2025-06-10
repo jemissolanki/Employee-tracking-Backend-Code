@@ -12,7 +12,7 @@ const router = express.Router();
 router.route("/").post(protect,createEmployee);
 router.route("/").get(getAllEmployees);
 router.route("/:id").put(protect,updateEmployee);
-router.route("/").delete(protect,deleteEmployee);
+router.route("/:id").delete(protect,deleteEmployee);
 
 
 module.exports=router;

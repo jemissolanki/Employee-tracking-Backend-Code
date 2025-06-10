@@ -12,13 +12,14 @@ const createEmployee = async (req, res) => {
       workDesignation,
       qualification,
       author: userId,
-      createdAt: new Date(),
     });
     await newEmployee.save();
     return res
       .status(201)
       .json({ message: "employee created", employee: newEmployee });
   } catch (error) {
+    console.error("create employee error", error);
+    
     res.status(500).json({ message: "server error " });
   }
 };

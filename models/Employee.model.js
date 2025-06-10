@@ -19,10 +19,7 @@ const employeeSchema = new mongoose.Schema(
       ref: "Users",
       require: true,
     },
-    createAt: {
-      type: Date,
-      default: Date.now,
-    },
+   
   },
   { timestamps: true }
 );
